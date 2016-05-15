@@ -89,13 +89,13 @@ body {
 }
 
 .center {
-  display: flex;
-  justify-content: center;
   position: absolute;
   top: 25%;
   left: 25%;
   height: 50%;
   width: 50%;
+  padding-top: 2%;
+  padding-bottom: 2%;
   background-color: #bbb;
   border-radius: 100%;
 }
@@ -103,54 +103,71 @@ body {
 .row {
   display: flex;
   justify-content: center;
+  align-items: center;
+  height: 33.3%;
+}
+
+.row > .container{
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.top > h1 {
+  margin-bottom: 20px;
 }
 
 .counter {
-  position: absolute;
   display: flex;
-  justify-content: center;
+  justify-content:center;
   align-items: center;
+  height: 30px;
+  width: 40px;
   font-size: 1.5em;
   color: #9F0F17;
-  top: 50%;
-  left: 20%;
-  height: 20%;
-  width: 25%;
   background-color: black;
   border-radius: 15%;
+  margin-right: 10px;
 }
 
 .start, 
 .strict {
-  position: absolute;
-  top: 50%;
-  height: 15%;
-  width: 15%;
+  height: 20px;
+  width: 20px;
   background-color: #000;
-  border-radius: 100%
+  border-radius: 100%;
+  margin-left: 10px;
 }
 
 .start {
-  left: 50%;
   background-color: #9F0F17;
+  margin-right: 5px;
 }
 
 .strict {
-  left: 70%;
   background-color: #CCA707;
 }
 
-.switch {
-  position: absolute;
-  top: 80%;
-  left: 40%;
-  height: 10%;
-  width: 20%;
-  background-color: #000;
+ul {
+  padding-left: 0;
+}
+
+ul li{
+  display: inline-block;
+  margin-left: 5px;
 }
 
 .switch {
-  position: absolute;
+  position: relative;
+  height: 10%;
+  width: 20%;
+  background-color: #000;
+  margin-top: 4px;
+  margin-right: 5px;
+  margin-left: 5px; 
+}
+
+.switch {
   width: 30px;
   height: 17px;
 }

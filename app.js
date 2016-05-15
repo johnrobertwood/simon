@@ -1,6 +1,8 @@
 var count = 0;
 var cpu = [];
 var player = [];
+var playbackMode = false;
+var cpuTurnMode = false;
 
 $('.bottomLeft')
   .mousedown(function() {
@@ -11,7 +13,8 @@ $('.bottomLeft')
   .mouseup(function() {
     var num = 1;
     $(this).css('background-color', '#CCA707');
-    if(!isCpuTurn()) {
+    if(!playbackMode && !cpuTurnMode) {
+      player.push(num)
       playerTurn(num);
     } 
   });
@@ -25,7 +28,8 @@ $('.bottomRight')
   .mouseup(function() {
     var num = 2;
     $(this).css('background-color', '#094A8F');
-    if(!isCpuTurn()){
+    if(!playbackMode && !cpuTurnMode){
+      player.push(num)
       playerTurn(num);
     } 
   });
@@ -39,7 +43,9 @@ $('.topRight')
 .mouseup(function() {
   var num = 3;
   $(this).css('background-color', '#9F0F17');
-  if(!isCpuTurn()){
+  if(!playbackMode && !cpuTurnMode){
+    console.log('playerturn')
+    player.push(num)
     playerTurn(num)
   } 
 });
@@ -53,7 +59,9 @@ $('.topLeft')
 .mouseup(function() {
   var num = 4;
   $(this).css('background-color', '#00A74A');
-  if(!isCpuTurn()) {
+  if(!playbackMode && !cpuTurnMode){
+    console.log('playerturn')
+    player.push(num)
     playerTurn(num);
   } 
 });
@@ -69,12 +77,13 @@ $('.power').click(function() {
 });
 
 $('.start').on('click', function() {
-  cpuTurn();
+  playSequence();
+
 })
 
 //If the count is odd it is the Players turn
 function isCpuTurn() {
-  return count % 2;
+  return  player.length !== cpu.length;
 }
 
 function randomNum() {
@@ -102,25 +111,66 @@ function cpuTurn() {
   $(button).mousedown();
   setTimeout(function() {
     $(button).mouseup(); 
+    cpuTurnMode = false;
   }, 500);
-  // console.log(cpu)
+  console.log(cpu)
 }
 
 function playerTurn(num) {
-  player.push(num);
-  if(arraysNotEqual()){
-    console.log("WRONG");
-    return false;
-  }
-  setTimeout(function() {
-    cpuTurn(); 
-  }, 500)
-  console.log(player)
-  console.log(cpu)
+  // console.log(cpu)
+  // console.log(player)
+  // var compArr = cpu.slice(0, player.length)
+  // if(arraysNotEqual()) {
+  //   return false;
+  // }
+  playbackMode = true;
+  playSequence();
+}
+
+function arraysMatch(pArr, cArr) {
+  return pArr.toString() === cArr.toString();
 }
 
 function arraysNotEqual() {
   return player.toString() !== cpu.toString();
+}
+
+var intervalId;
+
+function playSequence() {
+  intervalId = window.setInterval(playButton, 1000);
+}
+
+function stopSequence() {
+  clearInterval(intervalId);
+}
+
+function playButton(index) {
+    num = cpu[count]
+    var buttonStr = '';
+    if (num === 1) {
+      buttonStr = '.bottomLeft';
+    } else if (num === 2) {
+      buttonStr = '.bottomRight';
+    } else if (num === 3) {
+      buttonStr = '.topRight';
+    } else if (num === 4) {
+      buttonStr = '.topLeft';
+    }
+    $(buttonStr).mousedown();
+    setTimeout(function() {
+      $(buttonStr).mouseup(); 
+    }, 500);
+
+    count += 1;
+
+    if (count > cpu.length) {
+      count = 0;
+      stopSequence();
+      playbackMode = false;
+      cpuTurnMode = true;
+      cpuTurn();
+    }
 }
 
 

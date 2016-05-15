@@ -7,13 +7,25 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <audio id="simonSound1">
+    <source src="https://s3.amazonaws.com/freecodecamp/simonSound1.mp3" type="audio/mpeg"> 
+  </audio>
+  <audio id="simonSound2">
+    <source src="https://s3.amazonaws.com/freecodecamp/simonSound2.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="simonSound3">
+    <source src="https://s3.amazonaws.com/freecodecamp/simonSound3.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="simonSound4">
+    <source src="https://s3.amazonaws.com/freecodecamp/simonSound4.mp3" type="audio/mpeg">
+  </audio>
   <div class="container">
     <div class="board">
       <div class="gameDisk">
-        <button class="topleft"></button>
-        <button class="topright"></button>
-        <button class="bottomleft"></button>
-        <button class="bottomright"></button>
+        <button class="topLeft noiseButton"></button>
+        <button class="topRight noiseButton"></button>
+        <button class="bottomLeft noiseButton"></button>
+        <button class="bottomRight noiseButton"></button>
         <div class="vertical-spacer"></div>
         <div class="horizontal-spacer"></div>
         <div class="blackCenter"></div>
@@ -23,12 +35,14 @@
           <button class="start"></button>
           <button class="strict"></button>
           <label class="switch">
-            <input type="checkbox">
+            <input type="checkbox" class="power">
             <div class="slider"></div>
           </label>
         </div>
       </div>
     </div>
   </div>
+  <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>

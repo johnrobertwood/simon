@@ -1,4 +1,6 @@
-var sequence = [];
+var count = 0;
+var cpu = [];
+var player = [];
 
 $('.bottomLeft')
   .mousedown(function() {
@@ -9,14 +11,9 @@ $('.bottomLeft')
   .mouseup(function() {
     var num = 1;
     $(this).css('background-color', '#CCA707');
-    if (sequence.length % 2) {
-      setTimeout(function() {
-        cpuTurn(); 
-      }, 500)
-      sequence.push(num);
-    } else {
-      sequence.push(num)
-    }
+    if(!isCpuTurn()) {
+      playerTurn(num);
+    } 
   });
 
 $('.bottomRight')
@@ -28,14 +25,9 @@ $('.bottomRight')
   .mouseup(function() {
     var num = 2;
     $(this).css('background-color', '#094A8F');
-    if (sequence.length % 2) {
-      setTimeout(function() {
-        cpuTurn(); 
-      }, 500)
-      sequence.push(num);
-    } else {
-      sequence.push(num)
-    }
+    if(!isCpuTurn()){
+      playerTurn(num);
+    } 
   });
 
 $('.topRight')
@@ -47,14 +39,9 @@ $('.topRight')
 .mouseup(function() {
   var num = 3;
   $(this).css('background-color', '#9F0F17');
-  if (sequence.length % 2) {
-    setTimeout(function() {
-      cpuTurn(); 
-    }, 500)
-    sequence.push(num);
-  } else {
-    sequence.push(num);
-  }
+  if(!isCpuTurn()){
+    playerTurn(num)
+  } 
 });
 
 $('.topLeft')
@@ -66,14 +53,9 @@ $('.topLeft')
 .mouseup(function() {
   var num = 4;
   $(this).css('background-color', '#00A74A');
-  if (sequence.length % 2) {
-    setTimeout(function() {
-      cpuTurn(); 
-    }, 500)
-    sequence.push(num);
-  } else {
-    sequence.push(num)
-  }
+  if(!isCpuTurn()) {
+    playerTurn(num);
+  } 
 });
 
 $('.power').click(function() {
@@ -90,12 +72,18 @@ $('.start').on('click', function() {
   cpuTurn();
 })
 
+//If the count is odd it is the Players turn
+function isCpuTurn() {
+  return count % 2;
+}
+
 function randomNum() {
   return Math.floor(Math.random() * 4) + 1;
 }
 
 function randomButton() {
-  var num = randomNum()
+  var num = randomNum();
+  cpu.push(num);
   var buttonStr = '';
   if (num === 1) {
     buttonStr = 'bottomLeft';
@@ -115,8 +103,26 @@ function cpuTurn() {
   setTimeout(function() {
     $(button).mouseup(); 
   }, 500);
-  console.log(sequence)
+  // console.log(cpu)
 }
+
+function playerTurn(num) {
+  player.push(num);
+  if(arraysNotEqual()){
+    console.log("WRONG");
+    return false;
+  }
+  setTimeout(function() {
+    cpuTurn(); 
+  }, 500)
+  console.log(player)
+  console.log(cpu)
+}
+
+function arraysNotEqual() {
+  return player.toString() !== cpu.toString();
+}
+
 
 
 

@@ -6,7 +6,7 @@ body {
 .container {
   display: flex;
   justify-content: center;
-  padding-top: 40px;
+  padding-top: 60px;
 }
 
 .board {
@@ -206,7 +206,3 @@ input:checked + .slider:before {
 }
 
 button:focus {outline:0;}
-
-
-
-

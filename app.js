@@ -1,8 +1,22 @@
+var intervalId;
 var count = 0;
+var round = '--';
 var cpu = [];
 var player = [];
 var playbackMode = false;
-var cpuTurnMode = false;
+var cpuTurnMode = true;
+var replayMode = false;
+var strictMode = false;
+
+$('.strict').on('click', function() {
+  if (strictMode) {
+    strictMode = false;
+    $(this).css('background-color', '#CCA707');
+  } else {
+    strictMode = true;
+    $(this).css('background-color', '#ffff00');
+  }
+})
 
 $('.bottomLeft')
   .mousedown(function() {
@@ -44,7 +58,6 @@ $('.topRight')
   var num = 3;
   $(this).css('background-color', '#9F0F17');
   if(!playbackMode && !cpuTurnMode){
-    console.log('playerturn')
     player.push(num)
     playerTurn(num)
   } 
@@ -60,7 +73,6 @@ $('.topLeft')
   var num = 4;
   $(this).css('background-color', '#00A74A');
   if(!playbackMode && !cpuTurnMode){
-    console.log('playerturn')
     player.push(num)
     playerTurn(num);
   } 
@@ -77,8 +89,15 @@ $('.power').click(function() {
 });
 
 $('.start').on('click', function() {
+  count = 0;
+  round = 1;
+  cpu = [];
+  player = [];
+  playbackMode = false;
+  cpuTurnMode = false;
+  replayMode = false;
   playSequence();
-
+  document.getElementById('counter').innerHTML = "1";
 })
 
 //If the count is odd it is the Players turn
@@ -113,29 +132,49 @@ function cpuTurn() {
     $(button).mouseup(); 
     cpuTurnMode = false;
   }, 500);
-  console.log(cpu)
 }
 
 function playerTurn(num) {
-  // console.log(cpu)
-  // console.log(player)
-  // var compArr = cpu.slice(0, player.length)
-  // if(arraysNotEqual()) {
-  //   return false;
-  // }
-  playbackMode = true;
-  playSequence();
+  var compArr = cpu.slice(0, player.length);
+  if(arraysNotEqual(player, compArr)) {
+      mistakeSound();
+      player = [];
+      document.getElementById('counter').innerHTML = "--";
+      window.setTimeout(function() {
+        document.getElementById('counter').innerHTML = round;
+      }, 1000)
+      window.setTimeout(playSequence, 2000);
+    if (strictMode) {
+      cpu = [];
+      round = 1;
+    } else {
+      playbackMode = true;
+      replayMode = true;
+    }
+  } else if (player.length === cpu.length) {
+    if (round === 20) {
+      alert("You win")
+      round = 1;
+      cpu = [];
+      player = [];
+      document.getElementById('counter').innerHTML = "--";
+      window.setTimeout(function() {
+        document.getElementById('counter').innerHTML = round;
+      }, 1000)
+      window.setTimeout(playSequence, 2000);
+    } else {    
+      round += 1;
+      player = [];
+      playbackMode = true;
+      playSequence();
+      document.getElementById('counter').innerHTML = round;
+    }
+  } 
 }
 
-function arraysMatch(pArr, cArr) {
-  return pArr.toString() === cArr.toString();
+function arraysNotEqual(pArr, cArr) {
+  return pArr.toString() !== cArr.toString();
 }
-
-function arraysNotEqual() {
-  return player.toString() !== cpu.toString();
-}
-
-var intervalId;
 
 function playSequence() {
   intervalId = window.setInterval(playButton, 1000);
@@ -143,6 +182,11 @@ function playSequence() {
 
 function stopSequence() {
   clearInterval(intervalId);
+}
+
+function mistakeSound() {
+    var mistake = new Audio('http://adambeagle.com/static/audio/simon_mistake.mp3');
+    mistake.play();
 }
 
 function playButton(index) {
@@ -169,18 +213,12 @@ function playButton(index) {
       stopSequence();
       playbackMode = false;
       cpuTurnMode = true;
-      cpuTurn();
+      
+      if(replayMode) {
+        replayMode = false; 
+        cpuTurnMode = false;
+      } else { 
+        cpuTurn();
+      }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-

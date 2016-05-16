@@ -85,6 +85,15 @@ $('.power').click(function() {
   } else {
     $('.noiseButton').attr('disabled', true);
     $('.control').attr('disabled', true);
+    count = 0;
+    round = '--';
+    cpu = [];
+    player = [];
+    playbackMode = false;
+    cpuTurnMode = true;
+    replayMode = false;
+    strictMode = false;
+    document.getElementById('counter').innerHTML = "--";
   }
 });
 
